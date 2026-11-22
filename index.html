@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Vaktérkép gyakorló</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="theme-color" content="#eef1ec">
@@ -190,7 +195,10 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--accent); ou
 .lbl rect { fill: var(--ink); opacity: .92; }
 .lbl text { fill: var(--paper); font: 700 15px var(--f-display); letter-spacing: .04em; text-transform: uppercase; }
 @media (prefers-reduced-motion: reduce) { .target .hl-line, .target .mk.halo, .target .mk.ring, .reveal .hl-line, .reveal .mk.halo, .reveal .mk.ring, #answer.bad { animation: none; } #bar { transition: none; } }
+[hidden]{display:none!important} body{margin:0}
 </style>
+</head>
+<body>
 
 <div class="screen" id="home">
   <div class="page">
@@ -1199,3 +1207,5 @@ renderHome();
 })();
 
 </script>
+</body>
+</html>
