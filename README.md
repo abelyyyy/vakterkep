@@ -28,7 +28,7 @@ A `globe.html` és az `index.html` a JSON-adatokat `fetch`-csel tölti, ezért *
 | `regions.json` | a 810 követelmény-elem neve, kategóriája, szintje és geometriája |
 | `tiles/*.jpg` | helyi alapképek Web Mercator vetületben (domborzat, műhold) – kis nagyításon és akkor látszanak, ha az online csempék nem érhetők el |
 
-A földgömb motorja a [MapLibre GL JS](https://maplibre.org/) 5.24.0 (BSD-3), CDN-ről töltődik.
+A gyakorló és a földgömb térképmotorja a [MapLibre GL JS](https://maplibre.org/) 5.24.0 (BSD-3, WebGL), CDN-ről töltődik; az offline fájlba be van építve.
 
 ## Adatforrások és licencek
 
