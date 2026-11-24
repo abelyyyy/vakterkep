@@ -18,7 +18,7 @@
   --accent: #1d6b57; --accent-ink: #ffffff; --accent-soft: #dcebe4;
   --sea-a: #d6e8ee; --sea-b: #b9d3de; --land: #f3eedd; --land-home: #eee4c4; --coast: #6d8f99; --border: #9a7f68; --county: #c2ac8e;
   --river: #3a83b4; --lake: #b4d7e6; --grat: rgba(40,90,110,.12);
-  --hit: #c8216b; --hit-fill: rgba(200,33,107,.28); --good: #23824a; --good-fill: rgba(35,130,74,.30); --bad: #c62828; --bad-fill: rgba(198,40,40,.24);
+  --hit: #c8216b; --hit-fill: rgba(200,33,107,.28); --ans: #1565c0; --ans-fill: rgba(21,101,192,.24); --good: #23824a; --good-fill: rgba(35,130,74,.30); --bad: #c62828; --bad-fill: rgba(198,40,40,.24);
   --faint: rgba(29,107,87,.14); --faint-line: rgba(29,107,87,.6); --emelt: #b93a2a;
   --f-display: 'Barlow Condensed', 'Arial Narrow', 'Roboto Condensed', system-ui, sans-serif;
   --f-body: 'Source Sans 3', 'Segoe UI', 'Helvetica Neue', Arial, system-ui, sans-serif;
@@ -30,14 +30,14 @@
   --accent: #4fbf9f; --accent-ink: #062019; --accent-soft: #163029;
   --sea-a: #12232b; --sea-b: #0c1a20; --land: #262d27; --land-home: #2f3628; --coast: #4f7480; --border: #8c7a66; --county: #5b5446;
   --river: #5aa8d8; --lake: #1d3f4f; --grat: rgba(150,200,215,.08);
-  --hit: #ff5aa0; --hit-fill: rgba(255,90,160,.30); --good: #49c27a; --good-fill: rgba(73,194,122,.28); --bad: #ff6161; --bad-fill: rgba(255,97,97,.26);
+  --hit: #ff5aa0; --hit-fill: rgba(255,90,160,.30); --ans: #5aa9ff; --ans-fill: rgba(90,169,255,.26); --good: #49c27a; --good-fill: rgba(73,194,122,.28); --bad: #ff6161; --bad-fill: rgba(255,97,97,.26);
   --faint: rgba(79,191,159,.16); --faint-line: rgba(79,191,159,.6); --emelt: #ff8a73; color-scheme: dark; } }
 :root[data-theme="dark"] {
   --paper: #0f1615; --card: #172120; --ink: #e2ebe7; --muted: #95a6a0; --line: #283533;
   --accent: #4fbf9f; --accent-ink: #062019; --accent-soft: #163029;
   --sea-a: #12232b; --sea-b: #0c1a20; --land: #262d27; --land-home: #2f3628; --coast: #4f7480; --border: #8c7a66; --county: #5b5446;
   --river: #5aa8d8; --lake: #1d3f4f; --grat: rgba(150,200,215,.08);
-  --hit: #ff5aa0; --hit-fill: rgba(255,90,160,.30); --good: #49c27a; --good-fill: rgba(73,194,122,.28); --bad: #ff6161; --bad-fill: rgba(255,97,97,.26);
+  --hit: #ff5aa0; --hit-fill: rgba(255,90,160,.30); --ans: #5aa9ff; --ans-fill: rgba(90,169,255,.26); --good: #49c27a; --good-fill: rgba(73,194,122,.28); --bad: #ff6161; --bad-fill: rgba(255,97,97,.26);
   --faint: rgba(79,191,159,.16); --faint-line: rgba(79,191,159,.6); --emelt: #ff8a73; color-scheme: dark; }
 
 html, body { height: 100%; }
@@ -119,8 +119,10 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--accent); ou
 .track { height: 3px; background: var(--line); }
 #bar { height: 100%; width: 0; background: var(--accent); transition: width .3s; }
 .mapwrap { position: relative; flex: 1; min-height: 0; background: var(--sea-b); overflow: hidden; }
-#map { position: absolute; inset: 0; }
-.mapsvg { display: block; width: 100%; height: 100%; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+#map { position: absolute; inset: 0; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; cursor: grab; }
+#map:active { cursor: grabbing; }
+.maplayer { position: absolute; will-change: transform; backface-visibility: hidden; }
+.mapsvg { display: block; }
 .zoomctl { position: absolute; right: max(10px, env(safe-area-inset-right, 0px)); bottom: 12px; display: grid; gap: 6px; }
 .zoomctl button { width: 42px; height: 42px; border-radius: 10px; border: 1px solid var(--line); background: var(--card); font: 700 20px/1 var(--f-body); box-shadow: 0 2px 8px rgba(0,0,0,.14); }
 .zoomctl button.sm { font-size: 14px; }
@@ -128,6 +130,7 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--accent); ou
 .toast { position: absolute; left: 50%; top: 10px; transform: translateX(-50%); max-width: calc(100% - 24px); padding: 9px 14px; border-radius: 10px; font-weight: 700; font-size: 15px; box-shadow: 0 4px 14px rgba(0,0,0,.2); text-align: center; color: #fff; }
 .toast.good { background: var(--good); }
 .toast.bad { background: var(--bad); }
+.toast.ans { background: var(--ans); }
 .qbottom { padding: 10px max(12px, env(safe-area-inset-right, 0px)) 10px max(12px, env(safe-area-inset-left, 0px)); display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; background: var(--paper); border-top: 1px solid var(--line); }
 .row { display: flex; gap: 8px; min-width: 0; }
 .btn { border-radius: 10px; border: 1px solid var(--line); background: var(--card); padding: 11px 14px; font-weight: 700; font-size: 15px; white-space: nowrap; }
@@ -177,15 +180,17 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--accent); ou
 .item .mk.ring { fill: none; stroke-width: 2.5; vector-effect: non-scaling-stroke; }
 .target .hl-area { fill: var(--hit-fill); stroke: var(--hit); } .target .hl-line { stroke: var(--hit); } .target .hl-band { stroke: var(--hit); } .target .tri.arrow { fill: var(--hit); }
 .target .mk.halo { fill: var(--hit-fill); stroke: var(--hit); } .target .mk.core { fill: var(--hit); } .target .mk.ring { stroke: var(--hit); }
-.target .hl-line, .target .mk.halo, .target .mk.ring { animation: pulse 1.6s ease-in-out infinite; }
+.target .hl-line, .target .mk.halo, .target .mk.ring { animation: pulse 1.2s ease-in-out 2; }
 @keyframes pulse { 50% { opacity: .45; } }
 .good .hl-area { fill: var(--good-fill); stroke: var(--good); } .good .hl-line { stroke: var(--good); } .good .hl-band { stroke: var(--good); } .good .tri.arrow { fill: var(--good); }
 .good .mk.halo { fill: var(--good-fill); stroke: var(--good); } .good .mk.core { fill: var(--good); } .good .mk.ring { stroke: var(--good); }
-.bad .hl-area, .reveal .hl-area { fill: var(--bad-fill); stroke: var(--bad); } .bad .hl-line, .reveal .hl-line { stroke: var(--bad); } .bad .hl-band, .reveal .hl-band { stroke: var(--bad); }
-.bad .tri.arrow, .reveal .tri.arrow { fill: var(--bad); }
-.bad .mk.halo, .reveal .mk.halo { fill: var(--bad-fill); stroke: var(--bad); } .bad .mk.core, .reveal .mk.core { fill: var(--bad); } .bad .mk.ring, .reveal .mk.ring { stroke: var(--bad); }
-.reveal .hl-line, .reveal .mk.halo, .reveal .mk.ring { animation: pulse 1.2s ease-in-out infinite; }
-.bad { opacity: .8; }
+.bad .hl-area { fill: var(--bad-fill); stroke: var(--bad); } .bad .hl-line { stroke: var(--bad); } .bad .hl-band { stroke: var(--bad); }
+.bad .tri.arrow { fill: var(--bad); }
+.bad .mk.halo { fill: var(--bad-fill); stroke: var(--bad); } .bad .mk.core { fill: var(--bad); } .bad .mk.ring { stroke: var(--bad); }
+.reveal .hl-area { fill: var(--ans-fill); stroke: var(--ans); stroke-width: 2.4; } .reveal .hl-line { stroke: var(--ans); } .reveal .hl-band { stroke: var(--ans); } .reveal .tri.arrow { fill: var(--ans); }
+.reveal .mk.halo { fill: var(--ans-fill); stroke: var(--ans); } .reveal .mk.core { fill: var(--ans); } .reveal .mk.ring { stroke: var(--ans); }
+.reveal .hl-line, .reveal .mk.halo, .reveal .mk.ring { animation: pulse 1s ease-in-out 2; }
+.bad { opacity: .85; transition: opacity .4s; } .bad.fade { opacity: 0; }
 .faint .hl-area { fill: var(--faint); stroke: var(--faint-line); stroke-width: 1; }
 .faint .hl-line { stroke: var(--faint-line); stroke-width: 3; }
 .faint .hl-band { stroke: var(--faint-line); opacity: .3; }
@@ -734,15 +739,20 @@ function boxInView(b, view, pad = 12) {
 function buildMap(region) {
   const box = $('#map'); box.innerHTML = '';
   const W = box.clientWidth || window.innerWidth || 360, H = box.clientHeight || Math.max(300, window.innerHeight - 220);
-  mapState.region = region; mapState.W = W; mapState.H = H;
+  mapState.region = region; mapState.W = W; mapState.H = H; mapState.el = box;
+  // a rajz a látható résznél nagyobb (széleken túlnyúló) rétegen van, így húzás közben nem lóg ki üres sáv
+  const MX = Math.round(W * 0.3), MY = Math.round(H * 0.3);
+  const layer = document.createElement('div'); layer.className = 'maplayer';
+  Object.assign(layer.style, { left: -MX + 'px', top: -MY + 'px', width: W + 2 * MX + 'px', height: H + 2 * MY + 'px', transformOrigin: MX + 'px ' + MY + 'px' });
+  box.append(layer); mapState.layer = layer;
   const proj = makeProjection(region.view, W, H);
   const path = d3.geoPath(proj);
   mapState.proj = proj; mapState.path = path; mapState.lvl = level(LEVEL_OF[region.id] || 'mid');
-  svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, width: W, height: H, class: 'mapsvg', role: 'img', 'aria-label': region.name + ' vaktérkép' }, box);
+  svg = svgEl('svg', { viewBox: `${-MX} ${-MY} ${W + 2 * MX} ${H + 2 * MY}`, width: W + 2 * MX, height: H + 2 * MY, class: 'mapsvg', role: 'img', 'aria-label': region.name + ' vaktérkép' }, layer);
   const defs = svgEl('defs', {}, svg);
   const grad = svgEl('radialGradient', { id: 'seaGrad', cx: '50%', cy: '42%', r: '75%' }, defs);
   svgEl('stop', { offset: '0%', class: 'sea-a' }, grad); svgEl('stop', { offset: '100%', class: 'sea-b' }, grad);
-  svgEl('rect', { x: 0, y: 0, width: W, height: H, fill: 'url(#seaGrad)', class: 'seabg' }, svg);
+  svgEl('rect', { x: -MX, y: -MY, width: W + 2 * MX, height: H + 2 * MY, fill: 'url(#seaGrad)', class: 'seabg' }, svg);
   gRoot = svgEl('g', {}, svg);
   layers = {};
   ['sphere', 'grat', 'land', 'lakes', 'rivers', 'borders', 'counties', 'water', 'hl', 'marks', 'fx', 'labels'].forEach(n => layers[n] = svgEl('g', { class: 'L-' + n }, gRoot));
@@ -751,12 +761,30 @@ function buildMap(region) {
   const clipBox = (id, x0, x1) => { const cp = svgEl('clipPath', { id }, defs); svgEl('path', { d: path(polyFeat([[x0, 30], [x1, 30], [x1, 85], [x0, 85]])) || '' }, cp); };
   clipBox('clip-ru-eu', 19, 60); clipBox('clip-ru-as', 60, 179.9);
   drawBase();
-  mapState.zoom = d3.zoom().scaleExtent([1, region.id === 'hu' ? 16 : 40]).translateExtent([[-W * 0.25, -H * 0.25], [W * 1.25, H * 1.25]])
-    .on('zoom', ev => { mapState.t = ev.transform; mapState.k = ev.transform.k; gRoot.setAttribute('transform', ev.transform.toString()); rescale(); });
-  d3.select(svg).call(mapState.zoom).on('dblclick.zoom', null);
-  d3.select(svg).on('click', onMapClick);
+  // mozgatás közben csak a kész képet toljuk/nagyítjuk (GPU), az SVG-t csak a mozdulat végén rajzoljuk újra élesre
+  mapState.t0 = d3.zoomIdentity;
+  mapState.zoom = d3.zoom().extent([[0, 0], [W, H]]).scaleExtent([1, region.id === 'hu' ? 16 : 40]).translateExtent([[-W * 0.25, -H * 0.25], [W * 1.25, H * 1.25]])
+    .clickDistance(6).tapDistance(12)
+    .on('zoom', ev => { mapState.t = ev.transform; mapState.k = ev.transform.k; liveTransform(); scheduleCommit(); })
+    .on('end', commitTransform);
+  d3.select(box).call(mapState.zoom).on('dblclick.zoom', null);
+  d3.select(box).on('click', onMapClick);
   mapState.t = d3.zoomIdentity; mapState.k = 1; rescale();
 }
+
+function liveTransform() {
+  const T = mapState.t, T0 = mapState.t0, r = T.k / T0.k;
+  mapState.layer.style.transform = `translate3d(${T.x - r * T0.x}px,${T.y - r * T0.y}px,0) scale(${r})`;
+}
+let commitT = 0;
+function scheduleCommit() { clearTimeout(commitT); commitT = setTimeout(commitTransform, 220); }
+function commitTransform() {
+  clearTimeout(commitT);
+  const T = mapState.t; if (!gRoot || !T) return;
+  if (mapState.t0 === T) return;
+  mapState.t0 = T; gRoot.setAttribute('transform', T.toString()); mapState.layer.style.transform = ''; rescale();
+}
+const zoomSel = () => d3.select(mapState.el);
 
 function drawBase() {
   const { path, region, lvl } = mapState; const view = region.view;
@@ -904,8 +932,8 @@ function hitScore(it, pt, ll) {
   return 0;
 }
 function eventToMap(ev) {
-  const r = svg.getBoundingClientRect();
-  const sx = (ev.clientX - r.left) * mapState.W / r.width, sy = (ev.clientY - r.top) * mapState.H / r.height;
+  const r = mapState.el.getBoundingClientRect();
+  const sx = ev.clientX - r.left, sy = ev.clientY - r.top;
   const pt = mapState.t.invert([sx, sy]);
   const ll = mapState.proj.invert ? mapState.proj.invert(pt) : null;
   return { pt, ll: ll && isFinite(ll[0]) && isFinite(ll[1]) ? ll : null };
@@ -924,7 +952,7 @@ function itemBounds(it) {
   const f = areaFeat(it); return f ? path.bounds(f) : null;
 }
 function zoomTo(it, animate = true) {
-  const b = itemBounds(it); const { W, H, zoom } = mapState; const sel = d3.select(svg);
+  const b = itemBounds(it); const { W, H, zoom } = mapState; const sel = zoomSel();
   const tr = animate ? sel.transition().duration(550) : sel;
   if (!b || !isFinite(b[0][0])) { tr.call(zoom.transform, d3.zoomIdentity); return; }
   const bw = Math.max(1, b[1][0] - b[0][0]), bh = Math.max(1, b[1][1] - b[0][1]);
@@ -936,7 +964,7 @@ function zoomTo(it, animate = true) {
   const cx = (b[0][0] + b[1][0]) / 2, cy = (b[0][1] + b[1][1]) / 2;
   tr.call(zoom.transform, d3.zoomIdentity.translate(W / 2, H / 2).scale(k).translate(-cx, -cy));
 }
-function resetZoom() { d3.select(svg).transition().duration(400).call(mapState.zoom.transform, d3.zoomIdentity); }
+function resetZoom() { zoomSel().transition().duration(400).call(mapState.zoom.transform, d3.zoomIdentity); }
 
 /* ---------- jelölők (városok, csúcsok) ---------- */
 const PEAK = /Kékes|Everest|Csomolungma|Fuji|Kilimandzsáró|Popocatépetl|Mount St|Írott|Badacsony|Etna|Vezúv|Mont Blanc|Krakatau|Teleki|Stromboli/i;
@@ -1056,16 +1084,20 @@ function onMapClick(ev) {
   let other = null, best = Infinity;
   cur.cat.items.forEach(o => { if (o === it) return; const s = hitScore(o, pt, ll); if (s && s < best) { best = s; other = o; } });
   layers.fx.innerHTML = '';
-  if (other) drawItem(other, layers.fx, 'bad'); else { svgEl('circle', { cx: pt[0], cy: pt[1], r: 8, 'data-r': 8, class: 'mk miss' }, layers.fx); rescale(); }
-  if (cur.tries >= 3) {
+  if (cur.tries >= 3) { // a megoldás: a téves jelölés eltűnik, csak a helyes hely látszik
     cur.locked = true; if (!cur.missed.includes(it)) cur.missed.push(it); record(it, false);
-    drawItem(it, layers.fx, 'reveal'); zoomTo(it); toast(`Itt van: ${it.display}`, 'bad', true);
-  } else toast(other ? `Ez: ${other.display}. Még ${3 - cur.tries} próba` : `Nem itt. Még ${3 - cur.tries} próba`, 'bad');
+    drawItem(it, layers.fx, 'reveal'); zoomTo(it); toast(other ? `Ez ${other.display} volt. Itt van: ${it.display}` : `Itt van: ${it.display}`, 'ans', true);
+    return;
+  }
+  const mark = other ? drawItem(other, layers.fx, 'bad') : (() => { const g = svgEl('g', { class: 'item bad' }, layers.fx); svgEl('circle', { cx: pt[0], cy: pt[1], r: 8, 'data-r': 8, class: 'mk miss' }, g); rescale(); return g; })();
+  fadeOut(mark, 1500);
+  toast(other ? `Ez: ${other.display}. Még ${3 - cur.tries} próba` : `Nem itt. Még ${3 - cur.tries} próba`, 'bad');
 }
+function fadeOut(g, ms) { setTimeout(() => { if (!g.isConnected) return; g.classList.add('fade'); setTimeout(() => g.remove(), 450); }, ms); }
 function revealFind() {
   if (!cur || cur.locked) return;
   cur.locked = true; if (!cur.missed.includes(cur.item)) cur.missed.push(cur.item); record(cur.item, false);
-  layers.fx.innerHTML = ''; drawItem(cur.item, layers.fx, 'reveal'); zoomTo(cur.item); toast(`Itt van: ${cur.item.display}`, 'bad', true);
+  layers.fx.innerHTML = ''; drawItem(cur.item, layers.fx, 'reveal'); zoomTo(cur.item); toast(`Itt van: ${cur.item.display}`, 'ans', true);
 }
 function submitName() {
   if (!cur || cur.mode !== 'name' || cur.locked) return;
@@ -1090,7 +1122,7 @@ function revealName() {
   if (!cur || cur.locked) return;
   cur.locked = true; const it = cur.item; if (!cur.missed.includes(it)) cur.missed.push(it); record(it, false);
   $('#prompt-name').textContent = it.display; layers.hl.innerHTML = ''; drawItem(it, layers.hl, 'reveal');
-  toast(`A helyes válasz: ${it.display}`, 'bad', true); cur.pendingNext = true;
+  toast(`A helyes válasz: ${it.display}`, 'ans', true); cur.pendingNext = true;
 }
 function goNext() {
   if (!cur || !cur.locked) return;
@@ -1167,8 +1199,8 @@ function setLevel(emelt) { store.settings.emelt = emelt; save(); renderHome(); }
 function bind() {
   $('#back-home').addEventListener('click', renderHome);
   $('#q-back').addEventListener('click', () => { cur = null; $('#results').hidden = true; curRegion ? openRegion(curRegion) : renderHome(); });
-  $('#zin').addEventListener('click', () => d3.select(svg).transition().duration(250).call(mapState.zoom.scaleBy, 1.6));
-  $('#zout').addEventListener('click', () => d3.select(svg).transition().duration(250).call(mapState.zoom.scaleBy, 1 / 1.6));
+  $('#zin').addEventListener('click', () => zoomSel().transition().duration(250).call(mapState.zoom.scaleBy, 1.6));
+  $('#zout').addEventListener('click', () => zoomSel().transition().duration(250).call(mapState.zoom.scaleBy, 1 / 1.6));
   $('#zreset').addEventListener('click', resetZoom);
   $('#skip').addEventListener('click', () => { if (!cur) return; if (cur.mode === 'find') revealFind(); else revealName(); });
   $('#showbtn').addEventListener('click', () => { if (cur) revealName(); });
@@ -1184,6 +1216,8 @@ function bind() {
     else { b.dataset.armed = '1'; b.textContent = 'Biztosan? Koppints újra'; setTimeout(() => { delete b.dataset.armed; b.textContent = 'Haladás törlése'; }, 3000); } });
   let rt = null;
   window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (cur && !$('#quiz').hidden) {
+    const box = $('#map'); // a mobil címsor be-/kicsúszása (csak kis magasságváltozás) miatt nem építjük újra a térképet
+    if (Math.abs(box.clientWidth - mapState.W) < 2 && Math.abs(box.clientHeight - mapState.H) < 160) return;
     const keep = cur; buildMap(keep.cat.region);
     if (keep.mode === 'find') { drawMarkers(filteredItems(keep.cat, false).filter(it => itemType(it) === 'point')); if (keep.locked && keep.item) drawItem(keep.item, layers.fx, 'reveal'); }
     else if (keep.mode === 'name') { if (keep.item) highlightTarget(); } else renderLearn(); } }, 250); });

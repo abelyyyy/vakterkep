@@ -932,8 +932,9 @@ function applyFilters() {
 /* ---------- találatkeresés kattintásra ---------- */
 const HIT_LAYERS = ['hit-pt', 'hit-pthu', 'hit-ln', 'hit-bd', 'hit-ar', 'county-fill', 'land-lo', 'land-mid', 'land-mid2', 'land-hi'];
 const RANK = { pt: 0, ln: 1, bd: 1, ar: 2, cy: 3, co: 4 };
+const COARSE = matchMedia('(pointer: coarse)').matches;
 function candidates(point) {
-  const pad = 4;
+  const pad = COARSE ? 12 : 4;
   const fs = map.queryRenderedFeatures([[point.x - pad, point.y - pad], [point.x + pad, point.y + pad]], { layers: HIT_LAYERS });
   const ll = map.unproject(point); const lon = ((ll.lng + 540) % 360) - 180;
   const seen = new Map(); const add = (it, d) => { if (!it || !visible(it)) return; const prev = seen.get(it.i); if (prev == null || d < prev) seen.set(it.i, d); };
